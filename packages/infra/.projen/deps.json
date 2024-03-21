@@ -80,11 +80,6 @@
       "type": "build"
     },
     {
-      "name": "website",
-      "version": "0.0.0",
-      "type": "build"
-    },
-    {
       "name": "@aws/pdk",
       "type": "runtime"
     },

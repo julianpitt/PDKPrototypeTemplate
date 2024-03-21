@@ -18,19 +18,19 @@ const devEnv = {
     nagPacks: [new AwsPrototypingChecks()],
   });
 
-  const pipelineStack = new PipelineStack(app, "Pipeline", { env: devEnv });
-
   const branchPrefix = PDKPipeline.getBranchPrefix({ node: app.node });
+
+  const pipelineStack = new PipelineStack(app, "Pipeline", { env: devEnv });
 
   const devStage = new AppStage(app, branchPrefix + "Dev", {
     env: devEnv,
   });
 
-  pipelineStack.pipeline.addStage(devStage);
-
   new AppStage(app, branchPrefix + "Sandbox", {
     env: devEnv,
   });
+
+  pipelineStack.pipeline.addStage(devStage);
 
   const graph = new CdkGraph(app, {
     plugins: [

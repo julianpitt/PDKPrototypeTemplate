@@ -15,9 +15,7 @@ export interface RuntimeContext {
 /**
  * Context for storing the runtimeContext.
  */
-export const RuntimeConfigContext = createContext<RuntimeContext | undefined>(
-  undefined,
-);
+export const RuntimeConfigContext = createContext<RuntimeContext | undefined>(undefined);
 
 /**
  * Sets up the runtimeContext.
@@ -26,9 +24,7 @@ export const RuntimeConfigContext = createContext<RuntimeContext | undefined>(
  * the runtime-config.json must have the following properties configured: [region, userPoolId, userPoolWebClientId, identityPoolId].
  */
 const RuntimeContextProvider: React.FC<any> = ({ children }) => {
-  const [runtimeContext, setRuntimeContext] = useState<
-    RuntimeContext | undefined
-  >();
+  const [runtimeContext, setRuntimeContext] = useState<RuntimeContext | undefined>();
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
@@ -37,17 +33,10 @@ const RuntimeContextProvider: React.FC<any> = ({ children }) => {
         return response.json();
       })
       .then((runtimeCtx) => {
-        if (
-          runtimeCtx.region &&
-          runtimeCtx.userPoolId &&
-          runtimeCtx.userPoolWebClientId &&
-          runtimeCtx.identityPoolId
-        ) {
+        if (runtimeCtx.region && runtimeCtx.userPoolId && runtimeCtx.userPoolWebClientId && runtimeCtx.identityPoolId) {
           setRuntimeContext(runtimeCtx as RuntimeContext);
         } else {
-          setError(
-            "runtime-config.json should have region, userPoolId, userPoolWebClientId & identityPoolId.",
-          );
+          setError("runtime-config.json should have region, userPoolId, userPoolWebClientId & identityPoolId.");
         }
       })
       .catch(() => {
@@ -58,9 +47,7 @@ const RuntimeContextProvider: React.FC<any> = ({ children }) => {
   return error ? (
     <ErrorMessage>{error}</ErrorMessage>
   ) : runtimeContext ? (
-    <RuntimeConfigContext.Provider value={runtimeContext}>
-      {children}
-    </RuntimeConfigContext.Provider>
+    <RuntimeConfigContext.Provider value={runtimeContext}>{children}</RuntimeConfigContext.Provider>
   ) : (
     <Spinner></Spinner>
   );

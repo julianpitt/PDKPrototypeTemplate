@@ -7,15 +7,38 @@ import {
   Library,
   ModelLanguage,
   TypeSafeApiProject,
+  TypeScriptProjectOptions,
 } from "@aws/pdk/type-safe-api";
-import { javascript } from "projen";
+import { NodePackageManager } from "projen/lib/javascript";
+
+const commonProjectOptions = {
+  defaultReleaseBranch: "main",
+  packageManager: NodePackageManager.PNPM,
+  prettier: true,
+  eslint: true,
+  prettierOptions: {
+    settings: {
+      printWidth: 120,
+    },
+  },
+  tsconfig: {
+    compilerOptions: {
+      lib: ["es2019", "dom"],
+      skipLibCheck: true,
+    },
+  },
+} satisfies Partial<TypeScriptProjectOptions>;
 
 const monorepo = new PDKMonorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
   name: "PrototypingDemo",
-  packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
+  ...commonProjectOptions,
 });
+monorepo.tsconfigDev.addInclude("**/*.ts");
+monorepo.tsconfigDev.addInclude(".projenrc.ts");
+monorepo.tsconfig!.addInclude("**/*.ts");
+monorepo.tsconfig!.addInclude(".projenrc.ts");
 
 const api = new TypeSafeApiProject({
   parent: monorepo,
@@ -54,23 +77,39 @@ const website = new CloudscapeReactTsWebsiteProject({
   parent: monorepo,
   outdir: "packages/website",
   typeSafeApis: [api],
+  ...commonProjectOptions,
 });
+
+monorepo.addImplicitDependency(website, api.documentation.htmlRedoc!);
 
 const infra = new InfrastructureTsProject({
   parent: monorepo,
   outdir: "packages/infra",
   name: "infra",
-  cloudscapeReactTsWebsites: [website],
+  sampleCode: false,
+
   typeSafeApis: [api],
+
+  ...commonProjectOptions,
 });
 
-infra.addScripts({
-  bootstrap: "cdk bootstrap",
+infra.addTask("bootstrap", {
+  exec: "cdk bootstrap",
 });
+
+const deploySandboxTask = infra.addTask("deploy:sandbox", {
+  receiveArgs: true,
+});
+deploySandboxTask.exec("cdk synth", { receiveArgs: true });
+deploySandboxTask.exec("cdk deploy -a cdk.out/assembly-Sandbox --require-approval never", { receiveArgs: true });
 
 monorepo.addScripts({
-  "deploy:dev": "nx run infra:deploy:dev",
+  bootstrap: "nx run infra:bootstrap",
+  "deploy:sandbox": "nx run infra:deploy:sandbox --all",
+  "deploy:all": "nx run infra:deploy --all",
   serve: "nx run website:dev",
 });
+
+monorepo.addImplicitDependency(infra, website);
 
 monorepo.synth();

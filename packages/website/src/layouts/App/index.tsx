@@ -3,14 +3,8 @@ SPDX-License-Identifier: Apache-2.0 */
 import { useCognitoAuthContext } from "@aws-northstar/ui";
 import NavHeader from "@aws-northstar/ui/components/AppLayout/components/NavHeader";
 import getBreadcrumbs from "@aws-northstar/ui/components/AppLayout/utils/getBreadcrumbs";
-import {
-  BreadcrumbGroup,
-  BreadcrumbGroupProps,
-  SideNavigation,
-} from "@cloudscape-design/components";
-import AppLayout, {
-  AppLayoutProps,
-} from "@cloudscape-design/components/app-layout";
+import { BreadcrumbGroup, BreadcrumbGroupProps, SideNavigation } from "@cloudscape-design/components";
+import AppLayout, { AppLayoutProps } from "@cloudscape-design/components/app-layout";
 import * as React from "react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -36,9 +30,7 @@ const App: React.FC = () => {
 
   const navigate = useNavigate();
   const [activeHref, setActiveHref] = useState("/");
-  const [activeBreadcrumbs, setActiveBreadcrumbs] = useState<
-    BreadcrumbGroupProps.Item[]
-  >([{ text: "/", href: "/" }]);
+  const [activeBreadcrumbs, setActiveBreadcrumbs] = useState<BreadcrumbGroupProps.Item[]>([{ text: "/", href: "/" }]);
   const [appLayoutProps, setAppLayoutProps] = useState<AppLayoutProps>({});
   const location = useLocation();
 
@@ -55,8 +47,7 @@ const App: React.FC = () => {
 
   const setAppLayoutPropsSafe = useCallback(
     (props: AppLayoutProps) => {
-      JSON.stringify(appLayoutProps) !== JSON.stringify(props) &&
-        setAppLayoutProps(props);
+      JSON.stringify(appLayoutProps) !== JSON.stringify(props) && setAppLayoutProps(props);
     },
     [appLayoutProps],
   );
@@ -84,9 +75,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <AppLayoutContext.Provider
-      value={{ appLayoutProps, setAppLayoutProps: setAppLayoutPropsSafe }}
-    >
+    <AppLayoutContext.Provider value={{ appLayoutProps, setAppLayoutProps: setAppLayoutPropsSafe }}>
       <NavHeader
         title={Config.applicationName}
         logo={Config.logo}
@@ -106,9 +95,7 @@ const App: React.FC = () => {
         }
       />
       <AppLayout
-        breadcrumbs={
-          <BreadcrumbGroup onFollow={onNavigate} items={activeBreadcrumbs} />
-        }
+        breadcrumbs={<BreadcrumbGroup onFollow={onNavigate} items={activeBreadcrumbs} />}
         toolsHide
         navigation={
           <SideNavigation

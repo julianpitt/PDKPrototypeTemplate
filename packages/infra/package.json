@@ -1,12 +1,14 @@
 {
   "name": "infra",
   "scripts": {
+    "bootstrap": "npx projen bootstrap",
     "build": "npx projen build",
     "bundle": "npx projen bundle",
     "compile": "npx projen compile",
     "default": "npx projen default",
     "deploy": "npx projen deploy",
     "deploy:dev": "npx projen deploy:dev",
+    "deploy:sandbox": "npx projen deploy:sandbox",
     "destroy": "npx projen destroy",
     "diff": "npx projen diff",
     "eslint": "npx projen eslint",
@@ -19,8 +21,7 @@
     "test": "npx projen test",
     "test:watch": "npx projen test:watch",
     "upgrade": "npx projen upgrade",
-    "watch": "npx projen watch",
-    "bootstrap": "cdk bootstrap"
+    "watch": "npx projen watch"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -40,8 +41,7 @@
     "projen": "^0.79.24",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2",
-    "website": "0.0.0"
+    "typescript": "^5.4.2"
   },
   "dependencies": {
     "@aws/pdk": "^0.23.16",

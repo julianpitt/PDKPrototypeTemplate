@@ -18,7 +18,11 @@
     "upgrade-deps": "pnpm exec projen upgrade-deps",
     "watch": "pnpm exec projen watch",
     "install:ci": "pnpm exec projen install:ci",
-    "synth-workspace": "pnpm exec projen"
+    "synth-workspace": "pnpm exec projen",
+    "bootstrap": "nx run infra:bootstrap",
+    "deploy:sandbox": "nx run infra:deploy:sandbox --all",
+    "deploy:all": "nx run infra:deploy --all",
+    "serve": "nx run website:dev"
   },
   "devDependencies": {
     "@aws/pdk": "^0.23.16",

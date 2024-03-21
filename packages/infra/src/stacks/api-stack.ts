@@ -1,21 +1,60 @@
 import { UserIdentity } from "@aws/pdk/identity";
+import { Authorizers } from "@aws/pdk/type-safe-api";
 import { Stack, StackProps } from "aws-cdk-lib";
+import { Cors } from "aws-cdk-lib/aws-apigateway";
+import { AccountPrincipal, AnyPrincipal, Effect, PolicyDocument, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
-import { TestApi } from "../constructs/apis/testapi";
+import { Api, MockIntegrations } from "TestApi-typescript-infra";
 
 interface ApiStackProps extends StackProps {
   identity: UserIdentity;
 }
 
 export class ApiStack extends Stack {
-  api: TestApi;
+  api: Api;
   constructor(scope: Construct, id: string, props: ApiStackProps) {
     super(scope, id, props);
 
-    const testapi = new TestApi(this, "TestApi", {
-      userIdentity: props.identity,
+    const api = new Api(this, id, {
+      defaultAuthorizer: Authorizers.iam(),
+      corsOptions: {
+        allowOrigins: Cors.ALL_ORIGINS,
+        allowMethods: Cors.ALL_METHODS,
+      },
+      integrations: MockIntegrations.mockAll(),
+      policy: new PolicyDocument({
+        statements: [
+          // Here we grant any AWS credentials from the account that the prototype is deployed in to call the api.
+          // Machine to machine fine-grained access can be defined here using more specific principals (eg roles or
+          // users) and resources (ie which api paths may be invoked by which principal) if required.
+          // If doing so, the cognito identity pool authenticated role must still be granted access for cognito users to
+          // still be granted access to the API.
+          new PolicyStatement({
+            effect: Effect.ALLOW,
+            principals: [new AccountPrincipal(Stack.of(this).account)],
+            actions: ["execute-api:Invoke"],
+            resources: ["execute-api:/*"],
+          }),
+          // Open up OPTIONS to allow browsers to make unauthenticated preflight requests
+          new PolicyStatement({
+            effect: Effect.ALLOW,
+            principals: [new AnyPrincipal()],
+            actions: ["execute-api:Invoke"],
+            resources: ["execute-api:/*/OPTIONS/*"],
+          }),
+        ],
+      }),
     });
 
-    this.api = testapi;
+    // Grant authenticated users access to invoke the api
+    props?.identity.identityPool.authenticatedRole.addToPrincipalPolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ["execute-api:Invoke"],
+        resources: [api.api.arnForExecuteApi("*", "/*", "*")],
+      }),
+    );
+
+    this.api = api;
   }
 }

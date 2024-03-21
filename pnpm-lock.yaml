@@ -280,9 +280,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.2
-      website:
-        specifier: 0.0.0
-        version: link:../website
 
   packages/website:
     dependencies:

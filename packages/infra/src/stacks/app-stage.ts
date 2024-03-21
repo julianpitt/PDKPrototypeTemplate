@@ -20,7 +20,7 @@ export class AppStage extends Stage {
     new WebsiteStack(this, "infra-dev", {
       env: props.env,
       identity,
-      testapi: api,
+      typeSafeApi: api,
     });
   }
 }

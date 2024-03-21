@@ -1,5 +1,13 @@
 {
   "tasks": {
+    "bootstrap": {
+      "name": "bootstrap",
+      "steps": [
+        {
+          "exec": "cdk bootstrap"
+        }
+      ]
+    },
     "build": {
       "name": "build",
       "description": "Full release build",
@@ -49,6 +57,19 @@
       "steps": [
         {
           "exec": "cdk deploy --hotswap-fallback --require-approval never",
+          "receiveArgs": true
+        }
+      ]
+    },
+    "deploy:sandbox": {
+      "name": "deploy:sandbox",
+      "steps": [
+        {
+          "exec": "cdk synth",
+          "receiveArgs": true
+        },
+        {
+          "exec": "cdk deploy -a cdk.out/assembly-Sandbox --require-approval never",
           "receiveArgs": true
         }
       ]
@@ -168,13 +189,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/jest,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,ts-jest,ts-node,typescript,website,@aws/pdk,TestApi-typescript-infra"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/jest,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,prettier,ts-jest,ts-node,typescript,@aws/pdk,TestApi-typescript-infra"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node typescript website @aws/pdk aws-cdk-lib constructs TestApi-typescript-infra"
+          "exec": "pnpm update @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit prettier projen ts-jest ts-node typescript @aws/pdk aws-cdk-lib constructs TestApi-typescript-infra"
         },
         {
           "exec": "npx projen"
