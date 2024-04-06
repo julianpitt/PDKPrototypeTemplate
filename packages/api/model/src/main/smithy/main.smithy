@@ -1,16 +1,26 @@
 $version: "2"
+
 namespace com.aws
 
 use aws.protocols#restJson1
 
-/// A sample smithy api
+@mixin
+structure CommonFields {
+    @required
+    createdAt: String
+    @required
+    updatedAt: String
+    @required
+    id: String
+}
+
 @restJson1
 service TestApi {
     version: "1.0"
-    operations: [SayHello]
+    resources: [ListResource, TaskResource]
     errors: [
-      BadRequestError
-      NotAuthorizedError
-      InternalFailureError
+        BadRequestError
+        NotAuthorizedError
+        InternalFailureError
     ]
 }

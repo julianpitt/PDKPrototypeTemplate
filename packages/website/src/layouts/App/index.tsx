@@ -1,16 +1,16 @@
 /*! Copyright [Amazon.com](http://amazon.com/), Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0 */
-import { useCognitoAuthContext } from "@aws-northstar/ui";
-import NavHeader from "@aws-northstar/ui/components/AppLayout/components/NavHeader";
-import getBreadcrumbs from "@aws-northstar/ui/components/AppLayout/utils/getBreadcrumbs";
-import { BreadcrumbGroup, BreadcrumbGroupProps, SideNavigation } from "@cloudscape-design/components";
-import AppLayout, { AppLayoutProps } from "@cloudscape-design/components/app-layout";
-import * as React from "react";
-import { createContext, useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { NavItems } from "./navitems";
-import Config from "../../config.json";
-import Routes from "../Routes";
+import { useCognitoAuthContext } from '@aws-northstar/ui';
+import NavHeader from '@aws-northstar/ui/components/AppLayout/components/NavHeader';
+import getBreadcrumbs from '@aws-northstar/ui/components/AppLayout/utils/getBreadcrumbs';
+import { BreadcrumbGroup, BreadcrumbGroupProps, SideNavigation } from '@cloudscape-design/components';
+import AppLayout, { AppLayoutProps } from '@cloudscape-design/components/app-layout';
+import * as React from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { NavItems } from './navitems';
+import Config from '../../config.json';
+import Routes from '../Routes';
 
 /**
  * Context for updating/retrieving the AppLayout.
@@ -29,8 +29,8 @@ const App: React.FC = () => {
   const { getAuthenticatedUser } = useCognitoAuthContext();
 
   const navigate = useNavigate();
-  const [activeHref, setActiveHref] = useState("/");
-  const [activeBreadcrumbs, setActiveBreadcrumbs] = useState<BreadcrumbGroupProps.Item[]>([{ text: "/", href: "/" }]);
+  const [activeHref, setActiveHref] = useState('/');
+  const [activeBreadcrumbs, setActiveBreadcrumbs] = useState<BreadcrumbGroupProps.Item[]>([{ text: '/', href: '/' }]);
   const [appLayoutProps, setAppLayoutProps] = useState<AppLayoutProps>({});
   const location = useLocation();
 
@@ -40,7 +40,7 @@ const App: React.FC = () => {
 
     authUser?.getSession(() => {
       authUser.getUserAttributes((_, attributes) => {
-        setEmail(attributes?.find((a) => a.Name === "email")?.Value);
+        setEmail(attributes?.find((a) => a.Name === 'email')?.Value);
       });
     });
   }, [getAuthenticatedUser, setUsername, setEmail]);
@@ -54,7 +54,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setActiveHref(location.pathname);
-    const breadcrumbs = getBreadcrumbs(location.pathname, location.search, "/");
+    const breadcrumbs = getBreadcrumbs(location.pathname, location.search, '/');
     setActiveBreadcrumbs(breadcrumbs);
   }, [location]);
 
@@ -90,7 +90,7 @@ const App: React.FC = () => {
         onSignout={() =>
           new Promise(() => {
             getAuthenticatedUser()?.signOut();
-            window.location.href = "/";
+            window.location.href = '/';
           })
         }
       />
@@ -99,7 +99,7 @@ const App: React.FC = () => {
         toolsHide
         navigation={
           <SideNavigation
-            header={{ text: Config.applicationName, href: "/" }}
+            header={{ text: Config.applicationName, href: '/' }}
             activeHref={activeHref}
             onFollow={onNavigate}
             items={NavItems}

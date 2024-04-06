@@ -68,6 +68,18 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-dynamodb",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/lib-dynamodb",
+      "type": "runtime"
+    },
+    {
+      "name": "@prototype-demo/business-logic",
+      "type": "runtime"
+    },
+    {
       "name": "TestApi-typescript-runtime",
       "version": "0.0.0",
       "type": "runtime"

@@ -1,8 +1,8 @@
 /*! Copyright [Amazon.com](http://amazon.com/), Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0 */
-import ErrorMessage from "@aws-northstar/ui/components/CognitoAuth/components/ErrorMessage";
-import { Spinner } from "@cloudscape-design/components";
-import React, { createContext, useEffect, useState } from "react";
+import ErrorMessage from '@aws-northstar/ui/components/CognitoAuth/components/ErrorMessage';
+import { Spinner } from '@cloudscape-design/components';
+import React, { createContext, useEffect, useState } from 'react';
 
 export interface RuntimeContext {
   readonly region: string;
@@ -28,7 +28,7 @@ const RuntimeContextProvider: React.FC<any> = ({ children }) => {
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
-    fetch("/runtime-config.json")
+    fetch('/runtime-config.json')
       .then((response) => {
         return response.json();
       })
@@ -36,11 +36,11 @@ const RuntimeContextProvider: React.FC<any> = ({ children }) => {
         if (runtimeCtx.region && runtimeCtx.userPoolId && runtimeCtx.userPoolWebClientId && runtimeCtx.identityPoolId) {
           setRuntimeContext(runtimeCtx as RuntimeContext);
         } else {
-          setError("runtime-config.json should have region, userPoolId, userPoolWebClientId & identityPoolId.");
+          setError('runtime-config.json should have region, userPoolId, userPoolWebClientId & identityPoolId.');
         }
       })
       .catch(() => {
-        setError("No runtime-config.json detected");
+        setError('No runtime-config.json detected');
       });
   }, [setRuntimeContext]);
 

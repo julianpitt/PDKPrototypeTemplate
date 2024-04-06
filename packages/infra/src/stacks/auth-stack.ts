@@ -1,6 +1,6 @@
-import { UserIdentity } from "@aws/pdk/identity";
-import { Stack, StackProps } from "aws-cdk-lib";
-import { Construct } from "constructs";
+import { UserIdentity } from '@aws/pdk/identity';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 export class IdentityStack extends Stack {
   identity: UserIdentity;

@@ -1,10 +1,10 @@
-import { CdkGraph, FilterPreset, Filters } from "@aws/pdk/cdk-graph";
-import { CdkGraphDiagramPlugin } from "@aws/pdk/cdk-graph-plugin-diagram";
-import { CdkGraphThreatComposerPlugin } from "@aws/pdk/cdk-graph-plugin-threat-composer";
-import { AwsPrototypingChecks, PDKNag } from "@aws/pdk/pdk-nag";
-import { PDKPipeline } from "@aws/pdk/pipeline";
-import { AppStage } from "./stacks/app-stage";
-import { PipelineStack } from "./stacks/pipeline-stack";
+import { CdkGraph, FilterPreset, Filters } from '@aws/pdk/cdk-graph';
+import { CdkGraphDiagramPlugin } from '@aws/pdk/cdk-graph-plugin-diagram';
+import { CdkGraphThreatComposerPlugin } from '@aws/pdk/cdk-graph-plugin-threat-composer';
+import { AwsPrototypingChecks, PDKNag } from '@aws/pdk/pdk-nag';
+import { PDKPipeline } from '@aws/pdk/pipeline';
+import { AppStage } from './stacks/app-stage';
+import { PipelineStack } from './stacks/pipeline-stack';
 
 // for development, use account/region from cdk cli
 const devEnv = {
@@ -20,13 +20,13 @@ const devEnv = {
 
   const branchPrefix = PDKPipeline.getBranchPrefix({ node: app.node });
 
-  const pipelineStack = new PipelineStack(app, "Pipeline", { env: devEnv });
+  const pipelineStack = new PipelineStack(app, 'Pipeline', { env: devEnv });
 
-  const devStage = new AppStage(app, branchPrefix + "Dev", {
+  const devStage = new AppStage(app, branchPrefix + 'Dev', {
     env: devEnv,
   });
 
-  new AppStage(app, branchPrefix + "Sandbox", {
+  new AppStage(app, branchPrefix + 'Sandbox', {
     env: devEnv,
   });
 

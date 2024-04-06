@@ -1,20 +1,32 @@
-/*! Copyright [Amazon.com](http://amazon.com/), Inc. or its affiliates. All Rights Reserved.
-SPDX-License-Identifier: Apache-2.0 */
-import { NorthStarThemeProvider } from "@aws-northstar/ui";
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import Auth from "./components/Auth";
-import RuntimeContextProvider from "./components/RuntimeContext";
-import App from "./layouts/App";
+import { NorthStarThemeProvider } from '@aws-northstar/ui';
+import { QueryClient } from '@tanstack/react-query';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import Auth from './components/Auth';
+import RuntimeContextProvider from './context/RuntimeContext';
+import { ApiProvider } from './hooks/useApi';
+import App from './layouts/App';
 
-createRoot(document.getElementById("root")!).render(
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchInterval: false,
+      retry: false,
+    },
+  },
+});
+
+createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NorthStarThemeProvider>
       <BrowserRouter>
         <RuntimeContextProvider>
           <Auth>
-            <App />
+            <ApiProvider queryClient={queryClient}>
+              <App />
+            </ApiProvider>
           </Auth>
         </RuntimeContextProvider>
       </BrowserRouter>

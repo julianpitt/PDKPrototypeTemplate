@@ -102,7 +102,19 @@
       "type": "runtime"
     },
     {
+      "name": "@cloudscape-design/collection-hooks",
+      "type": "runtime"
+    },
+    {
       "name": "@cloudscape-design/components",
+      "type": "runtime"
+    },
+    {
+      "name": "@tanstack/react-query",
+      "type": "runtime"
+    },
+    {
+      "name": "@uidotdev/usehooks",
       "type": "runtime"
     },
     {

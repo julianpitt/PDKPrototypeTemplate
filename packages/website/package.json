@@ -38,7 +38,10 @@
   "dependencies": {
     "@aws-northstar/ui": "^1.1.13",
     "@cloudscape-design/board-components": "^3.0.54",
+    "@cloudscape-design/collection-hooks": "^1.0.39",
     "@cloudscape-design/components": "^3.0.576",
+    "@tanstack/react-query": "^4.36.1",
+    "@uidotdev/usehooks": "^2.4.1",
     "aws4fetch": "^1.0.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

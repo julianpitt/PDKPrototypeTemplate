@@ -33,6 +33,9 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.549.0",
+    "@aws-sdk/lib-dynamodb": "^3.549.0",
+    "@prototype-demo/business-logic": "^0.0.0",
     "TestApi-typescript-runtime": "0.0.0"
   },
   "main": "lib/index.js",

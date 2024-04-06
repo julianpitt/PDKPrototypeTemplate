@@ -69,6 +69,8 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "packages/business-logic",
+      "packages/data-layer",
       "packages/infra",
       "packages/api/handlers/typescript",
       "packages/api/generated/infrastructure/typescript",
